@@ -12,6 +12,7 @@ This repository exists to document my journey and some struggle i face while wor
   - [Some PDF reporting thingies](#some-pdf-reporting-thingies)
     - [Create custom button to download report](#create-custom-button-to-download-report)
     - [View report directly via URL](#view-report-directly-via-url)
+    - [Check report object values](#check-report-object-values)
     - [Internationalization Odoo report](#internationalization-odoo-report)
     - [Report not consistent showing header and footer](#report-not-consistent-showing-header-and-footer)
   - [Backup and restore db (not specifically Odoo, but will be used every day)](#backup-and-restore-db-not-specifically-odoo-but-will-be-used-every-day)
@@ -87,6 +88,21 @@ http://localhost:8069/report/html/sale.report_saleorder/38
 > [!IMPORTANT]
 > Make sure to check the pdf result too beside of the html result, because some style is not supported or can have different behavior in pdf, like css grid-layout. So, keep tinkering~
 
+### Check report object values
+When you're adjusting report template, most of the time you want to check the values of the objects in the template, you can access the values directly from the terminal.
+- Put the following code on the line you want to stop in the .xml file:
+    ```xml
+    <button name="action_download" type="object" string="Download PDF" />
+    ```
+- Run the server with the following parameter:
+    ```
+    python3  ./odoo/odoo-bin -c /etc/odoo.conf --dev=qweb
+    ```
+- When triggering e.g. downloading the report, check the terminal, the debugger will stop at the earlier line of code in the first step.
+- To check the values, input the following command:
+    ```
+    locals()
+    ```
 ### Internationalization Odoo report
 - https://stackoverflow.com/questions/60827887/odoo12-can-i-translate-strings-in-reports
 - If you are working on i18n, make sure to not use `--dev` tag when running odoo instance, because [Odoo will directly render the data from the views, and skipping i18n data](https://github.com/odoo/odoo/issues/35553), so translation won't work.
